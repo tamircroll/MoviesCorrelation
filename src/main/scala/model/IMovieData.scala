@@ -1,0 +1,6 @@
+package model
+
+trait IMovieData
+{
+    
+}
