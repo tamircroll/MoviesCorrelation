@@ -6,7 +6,7 @@ import scalaj.http.{Http, HttpRequest}
 object IMDBConnector
 {
     val URL = """https://imdb8.p.rapidapi.com"""
-    val KEY = "4f9d05fe73mshe1dd9c5a146935cp12b329jsn532423ef2a63"
+    val KEY = ""
     val RAPIDAPI_HOST = "imdb8.p.rapidapi.com"
     val X_RAPIDAPI_KEY = "x-rapidapi-key"
     val X_RAPIDAPI_HOST = "x-rapidapi-host"
