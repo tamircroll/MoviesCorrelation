@@ -1,11 +1,12 @@
 package model
 
-class Actor(ID : Option[String],
-            Name : Option[String],
-            movies : Option[List[Movie]],
-            info : Option[String])
+case class Actor(ID : Option[String] = None,
+            Name : Option[String] = None,
+            movies : Option[List[Movie]] = None,
+            info : Option[String] = None)
     extends IMovieData
 {
-    
+    val m_ID = ID
+    println(s"TMIAR: ID: $ID")
 }
 

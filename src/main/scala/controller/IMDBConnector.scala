@@ -16,7 +16,6 @@ object IMDBConnector
     def getActors(actor : String) /*: List[Actor]*/ =
     {
         val titles = getTitleAutoComplete(actor)
-        
     }
     
     
