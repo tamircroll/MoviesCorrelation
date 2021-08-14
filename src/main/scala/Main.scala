@@ -1,4 +1,4 @@
-import controller.IMDBConnector
+import controller.{IMDBConnector, IMDBConnector2}
 import scalaj.http.Http
 
 object Main
@@ -8,6 +8,7 @@ object Main
 //        Temp.fun()
         
         println("MoviesCorrelation is on")
-        IMDBConnector.getActors("")
+        IMDBConnector2.getMovie("Rambo")
+//        IMDBConnector.getActors("")
     }
 }

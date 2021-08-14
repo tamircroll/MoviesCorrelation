@@ -1,7 +1,6 @@
 package controller
 
-import controller.IMDBConnector.{KEY, RAPIDAPI_HOST, X_RAPIDAPI_HOST, X_RAPIDAPI_KEY}
-import model.MovieRequestParser
+import model.MovieRequestParser2
 import scalaj.http.{Http, HttpRequest}
 
 object IMDBConnector2
@@ -12,11 +11,35 @@ object IMDBConnector2
     def getMovie(movie : String)
     {
         val http1 : HttpRequest = Http(s"${URL}/SearchMovie/$KEY/$movie")
-            .header(X_RAPIDAPI_KEY, KEY)
-            .header(X_RAPIDAPI_HOST, RAPIDAPI_HOST)
 
-        val res = MovieRequestParser.getActors(http1)
+        val res = MovieRequestParser2.getMovies(http1)
     }
     
+    def getSeries(series : String)
+    {
+        val http1 : HttpRequest = Http(s"${URL}/SearchSeries/$KEY/$series")
+
+        val res = MovieRequestParser2.getSeries(http1)
+    }
+
+    def getActor(actor : String)
+    {
+        val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actor")
+
+        val res = MovieRequestParser2.getActors(http1)
+    }
+
+    def getCast(movieID : String)
+    {
+        val http1 : HttpRequest = Http(s"${URL}/FullCast/$KEY/$movieID")
+
+        val res = MovieRequestParser2.getActors(http1)
+    }
     
+    def getMovieInfo(movieID : String)
+    {
+        val http1 : HttpRequest = Http(s"${URL}/Title/$KEY/$movieID")
+    
+        val res = MovieRequestParser2.getMovieInfo(http1)
+    }
 }
