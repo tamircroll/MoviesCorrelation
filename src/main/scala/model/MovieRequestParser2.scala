@@ -25,28 +25,35 @@ object MovieRequestParser2
     
     implicit val actorEncoder : Encoder[Actor] = deriveEncoder[Actor]
     implicit val actorsEncoder : Encoder[Option[List[Actor]]] = deriveEncoder[Option[List[Actor]]]
-    implicit val movieEncoder : Encoder[Movie] = deriveEncoder[Movie]
-    implicit val moviesEncoder : Encoder[Option[List[Movie]]] = deriveEncoder[Option[List[Movie]]]
+    implicit val movieEncoder : Encoder[CommonData] = deriveEncoder[CommonData]
+    implicit val moviesEncoder : Encoder[Option[List[CommonData]]] = deriveEncoder[Option[List[CommonData]]]
     implicit val moviesSearchTypeEncoder : Encoder[SearchType] = deriveEncoder[SearchType]
-    
+    implicit val actorJobItemEncoder : Encoder[ActorJobItem] = deriveEncoder[ActorJobItem]
+    implicit val directorJobItemEncoder : Encoder[DirectorJobItem] = deriveEncoder[DirectorJobItem]
+    implicit val writerJobItemEncoder : Encoder[WriterJobItem] = deriveEncoder[WriterJobItem]
+    implicit val otherJobItemEncoder : Encoder[OtherJobItem] = deriveEncoder[OtherJobItem]
+    implicit val actorJobEncoder : Encoder[Job[ActorJobItem]] = deriveEncoder[Job[ActorJobItem]]
+    implicit val directorJobEncoder : Encoder[Job[DirectorJobItem]] = deriveEncoder[Job[DirectorJobItem]]
+    implicit val writerJobEncoder : Encoder[Job[WriterJobItem]] = deriveEncoder[Job[WriterJobItem]]
+    implicit val otherJobEncoder : Encoder[Job[OtherJobItem]] = deriveEncoder[Job[OtherJobItem]]
+    implicit val fullCastEncoder : Encoder[FullCast] = deriveEncoder[FullCast]
     
     def getMovies(http : HttpRequest) : Option[List[Movie]] =
     {
         val body = http.asString.body
-        println(s"TAMIR: HERE: body: $body")
-        val parseResult = decode[SearchType](body)
-        val movies : Option[SearchType] = parseResult match
+        val parseResult = decode[MovieSearchType](body)
+        val movies : Option[MovieSearchType] = parseResult match
         {
             case Right(moviesList) => Some(moviesList)
-            case Left(error) => {
+            case Left(error) =>
                 println(s"TAMIR: HERE: failed to parse movies: $error. t.getMovies(MovieRequestParser2.scala:38)")
                 None
-            }
         }
-        movies.flatMap(_.results)
+        println(s"TAMIR: HERE: movies:${movies.toString}. t.getMovies(MovieRequestParser2.scala:46)")
+        movies.map(_.results)
     }
     
-    def getSeries(http : HttpRequest) : List[Movie] =
+    def getSeries(http : HttpRequest) : List[CommonData] =
     {
         ???
     }
