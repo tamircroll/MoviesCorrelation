@@ -53,7 +53,7 @@ object MovieRequestParser
     def getActors(res : HttpRequest)
     {
         val body : scala.Predef.String = res.asString.body
-        println(s"TAMIR: HERE: body: $body. t.getActors(MovieRequestParser.scala:11)")
+        println(s"TAMIR: HERE: body: $body. t.getActors(MovieRequestParser.scala:56)")
         
         val json : Either[ParsingFailure, Json] = parse(body)
         println(json.map(moviesListDecoder.decodeJson).right)
