@@ -51,7 +51,7 @@ case class Job[T](job : String, items : List[T])
 
 case class FullCast(imDbId : String,
     title : String,
-    fullTitle : String,
+    fullTitle : Option[String],
     `type` : String,
     year : String,
     directors : Option[List[Job[DirectorJobItem]]],
