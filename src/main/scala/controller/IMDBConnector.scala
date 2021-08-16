@@ -1,6 +1,6 @@
 package controller
 
-import model.MovieRequestParser
+import model.{ActorShort, MovieRequestParser, NameData, SearchResult}
 import scalaj.http.{Http, HttpRequest}
 
 class IMDBConnector(movieRequestParser : MovieRequestParser)
@@ -8,38 +8,33 @@ class IMDBConnector(movieRequestParser : MovieRequestParser)
     val URL = "https://imdb-api.com/en/API/"
     val KEY = "k_skqcpywr"
     
-    def searchTitle(movie : String)
+    def searchTitle(movie : String) : Option[List[SearchResult]] =
     {
         val http1 : HttpRequest = Http(s"${URL}/SearchTitle/$KEY/$movie")
-
-        val res = movieRequestParser.parseSearchTitleResult(http1)
+        movieRequestParser.parseSearchTitleResult(http1)
     }
-
-    def searchNames(actor : String)
-    {
+    
+    def searchNames(actor : String) : Option[List[SearchResult]] =
+        {
         val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actor")
-
-        val res = movieRequestParser.parseSearchNameResult(http1)
+        movieRequestParser.parseSearchNamesResult(http1)
     }
-
-    def searchActor(actorID : String)
+    
+    def searchActor(actorID : String) : Option[NameData] =
     {
-        val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actorID")
-
-        val res = movieRequestParser.parseSearchNameResult(http1)
+        val http1 : HttpRequest = Http(s"${URL}/Name/$KEY/$actorID")
+        movieRequestParser.parseSearchNameResult(http1)
     }
-
-    def searchCast(movieID : String)
+    
+    def searchCast(movieID : String) : Option[List[ActorShort]] =
     {
         val http1 : HttpRequest = Http(s"${URL}/FullCast/$KEY/$movieID")
-
-        val res = movieRequestParser.searchCast(http1)
+        movieRequestParser.searchCast(http1)
     }
     
     def getMovieInfo(movieID : String)
     {
         val http1 : HttpRequest = Http(s"${URL}/Title/$KEY/$movieID")
-    
-        val res = movieRequestParser.getMovieInfo(http1)
+        movieRequestParser.getMovieInfo(http1)
     }
 }

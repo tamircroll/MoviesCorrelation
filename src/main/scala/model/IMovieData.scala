@@ -1,6 +1,0 @@
-package model
-
-trait IMovieData
-{
-    
-}

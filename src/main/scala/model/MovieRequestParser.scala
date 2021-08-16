@@ -22,7 +22,7 @@ class MovieRequestParser
         movies.flatMap(_.results)
     }
     
-    def parseSearchNameResult(http : HttpRequest) : Option[List[SearchResult]] =
+    def parseSearchNamesResult(http : HttpRequest) : Option[List[SearchResult]] =
     {
         val body = http.asString.body
         val parseResult = decode[SearchData](body)
@@ -35,6 +35,21 @@ class MovieRequestParser
         }
         println(s"TAMIR: HERE: actors:${actors.toString}. t.getMovies(MovieRequestParser.scala:35)")
         actors.flatMap(_.results)
+    }
+    
+    def parseSearchNameResult(http : HttpRequest) : Option[NameData] =
+    {
+        val body = http.asString.body
+        val parseResult = decode[NameData](body)
+        val actor : Option[NameData] = parseResult match
+        {
+            case Right(actorsList) => Some(actorsList)
+            case Left(error) =>
+                println(s"TAMIR: HERE: failed to parse actor:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:35)")
+                None
+        }
+        println(s"TAMIR: HERE: actor:${actor.toString}. t.getMovies(MovieRequestParser.scala:35)")
+        actor
     }
     
     def searchCast(http : HttpRequest) : Option[List[ActorShort]] =

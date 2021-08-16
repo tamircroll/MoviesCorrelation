@@ -13,10 +13,9 @@ object Main
         val imdbEngine = new Engine(connector)
 //        connector.searchTitle("Rambo")
 //        connector.searchName("nm0177896")
-        connector.searchNames("Bradley")
-        connector.searchNames("Bradley")
+//        connector.searchNames("angelina")
 //        connector.searchCast("tt1375666")
 //        connector.getMovieInfo("tt1375666")
-        
+        imdbEngine.findSameMovies("nm0001401", "nm0000093")
     }
 }
