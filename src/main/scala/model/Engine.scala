@@ -10,6 +10,8 @@ class Engine(imdbConnector : IMDBConnector)
 {
     implicit val executionContext : ExecutionContext = ExecutionContext.global
     
+    val roleActorSet = Set("Actress", "Actor")
+    
     def searchTitle(title : String) =
     {
         imdbConnector.searchTitle(title)
@@ -39,8 +41,11 @@ class Engine(imdbConnector : IMDBConnector)
         val actor2 : NameData = Await.result(future2.map(_.head), 100000 milli)
     
         val res = actor1.castMovies.getOrElse(List())
+            .filter(_.role.forall(roleActorSet.contains))
             .filter(movie =>
-                actor2.castMovies.getOrElse(List()).exists(_.id == movie.id))
+                actor2.castMovies.getOrElse(List())
+                    .filter(_.role.forall(roleActorSet.contains))
+                    .exists(_.id == movie.id))
         
         println(s"TAMIR: HERE: res: $res\n. t.findSameMovies(Engine.scala:51)")
         res
