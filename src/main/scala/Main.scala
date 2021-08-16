@@ -1,5 +1,5 @@
 import controller.IMDBConnector
-import model.MovieRequestParser
+import model.{Engine, MovieRequestParser}
 import scalaj.http.Http
 
 object Main
@@ -9,7 +9,8 @@ object Main
 //        Temp.fun()
         
         println("MoviesCorrelation is on")
-        new IMDBConnector(new MovieRequestParser()).getMovie("Rambo")
+        val imdbEngine = new Engine(new IMDBConnector(new MovieRequestParser()))
+        imdbEngine.searchMovie("Rambo")
 //        IMDBConnector.getActors("")
     }
 }
