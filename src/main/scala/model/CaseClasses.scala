@@ -22,7 +22,6 @@ object DataHandler
     implicit val castShortItemTypeEncoder : Encoder[CastShortItem] = deriveEncoder[CastShortItem]
     implicit val actorShortTypeEncoder : Encoder[ActorShort] = deriveEncoder[ActorShort]
     implicit val trailerDataTypeEncoder : Encoder[TrailerData] = deriveEncoder[TrailerData]
-    //    implicit val searchTypeTypeEncoder : Encoder[SearchType] = deriveEncoder[SearchType]
     implicit val tvSeriesInfoTypeEncoder : Encoder[TvSeriesInfo] = deriveEncoder[TvSeriesInfo]
     implicit val wikipediaDataTypeEncoder : Encoder[WikipediaData] = deriveEncoder[WikipediaData]
     implicit val nameDataTypeEncoder : Encoder[NameData] = deriveEncoder[NameData]
@@ -32,11 +31,10 @@ object DataHandler
     implicit val searchDataTypeEncoder : Encoder[SearchData] = deriveEncoder[SearchData]
     implicit val fullCastDataTypeEncoder : Encoder[FullCastData] = deriveEncoder[FullCastData]
     implicit val titleDataTypeEncoder : Encoder[TitleData] = deriveEncoder[TitleData]
-    
 }
 
 
-// --------- complicated ---------------
+// --------- Complex Data ---------------
 
 case class TitleData(
     id : String,
@@ -94,7 +92,7 @@ case class SearchData(
     errorMessage : Option[String])
 
 case class PosterData(
-    iMDbId : Option[String],
+    imDbId : String,
     title : Option[String],
     fullTitle : Option[String],
     `type` : Option[String],
@@ -104,7 +102,7 @@ case class PosterData(
     errorMessage : Option[String])
 
 case class ImageData(
-    IMDbId : Option[String],
+    imDbId : String,
     title : Option[String],
     fullTitle : Option[String],
     `type` : Option[String],
@@ -113,7 +111,7 @@ case class ImageData(
     errorMessage : Option[String])
 
 case class FullCastData(
-    iMDbId : Option[String],
+    imDbId : String,
     title : Option[String],
     fullTitle : Option[String],
     `type` : Option[String],
@@ -143,7 +141,7 @@ case class NameData(
     errorMessage : Option[String])
 
 case class WikipediaData(
-    iMDbId : Option[String],
+    imDbId : String,
     title : Option[String],
     fullTitle : Option[String],
     `type` : Option[String],
@@ -165,7 +163,7 @@ case class TvSeriesInfo(
 // -------------- String only -------------------
 
 case class TrailerData(
-    iMDbId : Option[String],
+    imDbId : String,
     title : Option[String],
     fullTitle : Option[String],
     `type` : Option[String],
@@ -180,7 +178,7 @@ case class TrailerData(
     errorMessage : Option[String])
 
 case class RatingData(
-    iMDbId : Option[String],
+    imDbId : String,
     title : Option[String],
     fullTitle : Option[String],
     `type` : Option[String],
@@ -201,7 +199,6 @@ case class PosterDataItem(
     width : Option[Int],
     height : Option[Int])
 
-//case class SearchType(searchType : Option[String])
 
 case class TvEpisodeInfo(
     seriesId : Option[String],
@@ -290,16 +287,3 @@ object SearchType extends Enumeration
     Keyword,
     All = Value
 }
-
-//enum SearchType
-//(
-
-//    Title = 1,
-//    Movie = 2,
-//    Series = 4,
-//    Name = 8,
-//    Episode = 16,
-//    Company = 32,
-//    Keyword = 64,
-//    All = 128
-//)

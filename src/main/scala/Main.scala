@@ -9,8 +9,14 @@ object Main
 //        Temp.fun()
         
         println("MoviesCorrelation is on")
-        val imdbEngine = new Engine(new IMDBConnector(new MovieRequestParser()))
-        imdbEngine.searchMovie("Rambo")
-//        IMDBConnector.getActors("")
+        val connector = new IMDBConnector(new MovieRequestParser())
+        val imdbEngine = new Engine(connector)
+//        connector.searchTitle("Rambo")
+//        connector.searchName("nm0177896")
+        connector.searchNames("Bradley")
+        connector.searchNames("Bradley")
+//        connector.searchCast("tt1375666")
+//        connector.getMovieInfo("tt1375666")
+        
     }
 }

@@ -4,8 +4,9 @@ import controller.IMDBConnector
 
 class Engine(imdbConnector : IMDBConnector)
 {
-    def searchMovie(movieName : String)
+    def searchTitle(movieName : String)
     {
         imdbConnector.searchTitle(movieName)
+        imdbConnector.searchNames(movieName)
     }
 }

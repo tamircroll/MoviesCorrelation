@@ -12,14 +12,21 @@ class IMDBConnector(movieRequestParser : MovieRequestParser)
     {
         val http1 : HttpRequest = Http(s"${URL}/SearchTitle/$KEY/$movie")
 
-        val res = movieRequestParser.searchTitle(http1)
+        val res = movieRequestParser.parseSearchTitleResult(http1)
     }
 
-    def searchActor(actor : String)
+    def searchNames(actor : String)
     {
         val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actor")
 
-        val res = movieRequestParser.searchActors(http1)
+        val res = movieRequestParser.parseSearchNameResult(http1)
+    }
+
+    def searchActor(actorID : String)
+    {
+        val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actorID")
+
+        val res = movieRequestParser.parseSearchNameResult(http1)
     }
 
     def searchCast(movieID : String)

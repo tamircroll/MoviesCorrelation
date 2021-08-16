@@ -1,15 +1,13 @@
 package model
 
 
-import io.circe._
 import io.circe.generic.auto._
-import io.circe.generic.semiauto.deriveEncoder
 import io.circe.parser._
 import scalaj.http.HttpRequest
 
 class MovieRequestParser
 {
-    def searchTitle(http : HttpRequest) : Option[List[SearchResult]] =
+    def parseSearchTitleResult(http : HttpRequest) : Option[List[SearchResult]] =
     {
         val body = http.asString.body
         val parseResult = decode[SearchData](body)
@@ -20,52 +18,52 @@ class MovieRequestParser
                 println(s"TAMIR: HERE: failed to parse movies:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:21)")
                 None
         }
-        println(s"TAMIR: HERE: Succeeded to parse movies, . t.searchTitle(MovieRequestParser.scala:23)\n body:$body\n")
         println(s"TAMIR: HERE: movies:${movies.toString}. t.getMovies(MovieRequestParser.scala:24)")
         movies.flatMap(_.results)
     }
     
-    def searchActors(http : HttpRequest) : List[SearchResult] =
+    def parseSearchNameResult(http : HttpRequest) : Option[List[SearchResult]] =
     {
-        ???
+        val body = http.asString.body
+        val parseResult = decode[SearchData](body)
+        val actors : Option[SearchData] = parseResult match
+        {
+            case Right(actorsList) => Some(actorsList)
+            case Left(error) =>
+                println(s"TAMIR: HERE: failed to parse actors:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:35)")
+                None
+        }
+        println(s"TAMIR: HERE: actors:${actors.toString}. t.getMovies(MovieRequestParser.scala:35)")
+        actors.flatMap(_.results)
     }
     
-    def searchCast(http : HttpRequest) = ???
-    
-    def getMovieInfo(http : HttpRequest)
+    def searchCast(http : HttpRequest) : Option[List[ActorShort]] =
     {
-        ???
+        val body = http.asString.body
+        val parseResult = decode[FullCastData](body)
+        val cast : Option[FullCastData] = parseResult match
+        {
+            case Right(fullCast) => Some(fullCast)
+            case Left(error) =>
+                println(s"TAMIR: HERE: failed to parse cast:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:35)")
+                None
+        }
+        println(s"TAMIR: HERE: cast:${cast.toString}. t.getMovies(MovieRequestParser.scala:35)")
+        cast.flatMap(_.actors)
     }
     
-    
-//    def searchMovie(http : HttpRequest) : Option[List[Movie]] =
-//    {
-//        val body = http.asString.body
-//        val parseResult = decode[MovieSearchType](body)
-//        val movies : Option[MovieSearchType] = parseResult match
-//        {
-//            case Right(moviesList) => Some(moviesList)
-//            case Left(error) =>
-//                println(s"TAMIR: HERE: failed to parse movies:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:38)")
-//                None
-//        }
-//        println(s"TAMIR: HERE: movies:${movies.toString}. t.getMovies(MovieRequestParser.scala:46)")
-//        movies.map(_.results)
-//    }
-//
-//    def searchSeries(http : HttpRequest) : Option[List[Movie]] =
-//    {
-//        val body = http.asString.body
-//        val parseResult = decode[MovieSearchType](body)
-//        val movies : Option[MovieSearchType] = parseResult match
-//        {
-//            case Right(moviesList) => Some(moviesList)
-//            case Left(error) =>
-//                println(s"TAMIR: HERE: failed to parse movies: $error. t.getMovies(MovieRequestParser.scala:38)")
-//                None
-//        }
-//        println(s"TAMIR: HERE: movies:${movies.toString}. t.getMovies(MovieRequestParser.scala:46)")
-//        movies.map(_.results)
-//    }
-
+    def getMovieInfo(http : HttpRequest) : Option[TitleData] =
+    {
+        val body = http.asString.body
+        val parseResult = decode[TitleData](body)
+        val movieInfo : Option[TitleData] = parseResult match
+        {
+            case Right(info) => Some(info)
+            case Left(error) =>
+                println(s"TAMIR: HERE: failed to parse movieInfo:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:35)")
+                None
+        }
+        println(s"TAMIR: HERE: movieInfo:${movieInfo.toString}. t.getMovies(MovieRequestParser.scala:35)")
+        movieInfo
+    }
 }
