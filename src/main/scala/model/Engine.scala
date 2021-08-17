@@ -67,10 +67,13 @@ class Engine(imdbConnector : IMDBConnector)
         val actorList = (actorListOption1, actorListOption2) match
         {
             case (Some(actorList1), Some(actorList2)) => actorList1.filter(movie => actorList2.exists(_.id == movie.id))
-            case _ => List()
+            case _ => {
+                println(s"TAMIR: ERROR: Failed to find actor List. t.findSameActors(Engine.scala:71)")
+                List()
+            }
         }
         
-        println(s"TAMIR: HERE: Actors:$actorList. t.findSameActors(Engine.scala:72)")
+        println(s"TAMIR: HERE: Actors:$actorList\n$actorListOption1\n$actorListOption2. t.findSameActors(Engine.scala:72)")
         actorList
     }
 }

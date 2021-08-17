@@ -9,10 +9,10 @@ object Main
         val connector = new IMDBConnector(new MovieRequestParser())
         val imdbEngine = new Engine(connector)
         connector.searchTitle("The Matrix")
-        connector.searchNames("angelina")
-        connector.searchCast("tt1375666")
-        connector.getMovieInfo("tt1375666")
-        imdbEngine.findSameMovies("nm0001401", "nm0000093")
-        imdbEngine.findSameActors("tt1375666", "tt0110413")
+//        imdbEngine.searchNames("angelina")
+//        imdbEngine.searchCast("tt1375666")
+//        imdbEngine.getMovieInfo("tt1375666")
+//        imdbEngine.findSameMovies("nm0001401", "nm0000093")
+//        imdbEngine.findSameActors("tt1375666", "tt0110413")
     }
 }

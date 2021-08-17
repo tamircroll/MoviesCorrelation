@@ -15,10 +15,10 @@ class MovieRequestParser
         {
             case Right(titlesList) => Some(titlesList)
             case Left(error) =>
-                println(s"TAMIR: HERE: failed to parse movies:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:21)")
+                println(s"TAMIR: HERE: failed to parse movies:\n body:$body\n error: $error. t.getMovies(MovieRequestParser.scala:${Thread.currentThread().getStackTrace()(2).getLineNumber()})")
                 None
         }
-        println(s"TAMIR: HERE: movies:${movies.toString}. t.getMovies(MovieRequestParser.scala:24)")
+        println(s"TAMIR: HERE: movies:${movies.toString}. t.getMovies(MovieRequestParser.scala:21)")
         movies.flatMap(_.results)
     }
     

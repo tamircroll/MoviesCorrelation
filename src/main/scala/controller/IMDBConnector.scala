@@ -10,13 +10,15 @@ class IMDBConnector(movieRequestParser : MovieRequestParser)
     
     def searchTitle(movie : String) : Option[List[SearchResult]] =
     {
-        val http1 : HttpRequest = Http(s"${URL}/SearchTitle/$KEY/$movie")
+        val formattedMovie = movie.replaceAll(" ", "%20")
+        val http1 : HttpRequest = Http(s"${URL}/SearchTitle/$KEY/$formattedMovie")
         movieRequestParser.parseSearchTitleResult(http1)
     }
     
     def searchNames(actor : String) : Option[List[SearchResult]] =
     {
-        val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actor")
+        val formattedActor = actor.replaceAll(" ", "%20")
+        val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$formattedActor")
         movieRequestParser.parseSearchNamesResult(http1)
     }
     
