@@ -139,6 +139,14 @@ case class NameData(
     knownFors : Option[List[KnownFor]],
     castMovies : Option[List[CastMovie]],
     errorMessage : Option[String])
+{
+    val roleActorSet = Set("Actress", "Actor")
+    
+    def getCastActors : Option[List[CastMovie]] =
+    {
+        castMovies.map(_.filter(_.role.forall(roleActorSet.contains)))
+    }
+}
 
 case class WikipediaData(
     imDbId : String,

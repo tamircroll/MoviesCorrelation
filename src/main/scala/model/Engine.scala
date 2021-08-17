@@ -10,7 +10,6 @@ class Engine(imdbConnector : IMDBConnector)
 {
     implicit val executionContext : ExecutionContext = ExecutionContext.global
     
-    val roleActorSet = Set("Actress", "Actor")
     
     def searchTitle(title : String) =
     {
@@ -39,34 +38,39 @@ class Engine(imdbConnector : IMDBConnector)
     
     def findSameMovies(actorID1 : String, actorID2 : String) : immutable.Seq[CastMovie] =
     {
-        val future1 = Future(searchActor(actorID1))
-        val future2 = Future(searchActor(actorID2))
+        val actorListFuture1 = Future(searchActor(actorID1))
+        val actorListFuture2 = Future(searchActor(actorID2))
         
-        val actor1 : NameData = Await.result(future1.map(_.head), 10000 milli)
-        val actor2 : NameData = Await.result(future2.map(_.head), 100000 milli)
+        val actor1 : Option[NameData] = Await.result(actorListFuture1.map(_.headOption), 10000 milli)
+        val actor2 : Option[NameData] = Await.result(actorListFuture2.map(_.headOption), 100000 milli)
         
-        // Get movies and keep only roles of actor/Actress
-        val actorCastMovies = actor1.castMovies.getOrElse(List()).filter(_.role.forall(roleActorSet.contains))
-        val actor2CastMovies = actor2.castMovies.getOrElse(List()).filter(_.role.forall(roleActorSet.contains))
+        val moviesListOption1 = actor1.map(_.getCastActors)
+        val moviesListOption2 = actor2.getCastActors
         
-        val res = actorCastMovies.filter(movie => actor2CastMovies.exists(_.id == movie.id))
+        val res = (moviesListOption1, moviesListOption2) match
+        {
+            case (Some(moviesList1), Some(moviesList2)) => moviesList1.filter(movie => moviesList2.exists(_.id == movie.id))
+            case _ => List()
+        }
         println(s"TAMIR: HERE: res: $res\n. t.findSameMovies(Engine.scala:51)")
         res
     }
     
     def findSameActors(titleId1 : String, titleId2 : String) : List[ActorShort] =
     {
-        val future1 = Future(getMovieInfo(titleId1))
-        val future2 = Future(getMovieInfo(titleId2))
+        val movieInfoFuture1 = Future(getMovieInfo(titleId1)).map(_.flatMap(_.actorList))
+        val movieInfoFuture2 = Future(getMovieInfo(titleId2)).map(_.flatMap(_.actorList))
         
-        val actorListOption1 = Await.result(future1.map(_.flatMap(_.actorList)), 10000 milli)
-        val actorListOption2 = Await.result(future2.map(_.flatMap(_.actorList)), 100000 milli)
-
-        val actorList1 = actorListOption1.getOrElse(List())
-        val actorList2 = actorListOption2.getOrElse(List())
+        val actorListOption1 = Await.result(movieInfoFuture1, 10000 milli)
+        val actorListOption2 = Await.result(movieInfoFuture2, 100000 milli)
         
-        val res = actorList1.filter(actor => actorList2.exists(_.id == actor.id))
-        println(s"TAMIR: HERE: Actors:$res. t.findSameActors(Engine.scala:72)")
-        res
+        val actorList = (actorListOption1, actorListOption2) match
+        {
+            case (Some(actorList1), Some(actorList2)) => actorList1.filter(movie => actorList2.exists(_.id == movie.id))
+            case _ => List()
+        }
+        
+        println(s"TAMIR: HERE: Actors:$actorList. t.findSameActors(Engine.scala:72)")
+        actorList
     }
 }
