@@ -6,8 +6,6 @@ object Main
 {
     def main(args : Array[String]) : Unit =
     {
-//        Temp.fun()
-        
         println("MoviesCorrelation is on")
         val connector = new IMDBConnector(new MovieRequestParser())
         val imdbEngine = new Engine(connector)
