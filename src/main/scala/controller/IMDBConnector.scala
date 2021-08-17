@@ -1,6 +1,6 @@
 package controller
 
-import model.{ActorShort, MovieRequestParser, NameData, SearchResult}
+import model.{ActorShort, MovieRequestParser, NameData, SearchResult, TitleData}
 import scalaj.http.{Http, HttpRequest}
 
 class IMDBConnector(movieRequestParser : MovieRequestParser)
@@ -15,7 +15,7 @@ class IMDBConnector(movieRequestParser : MovieRequestParser)
     }
     
     def searchNames(actor : String) : Option[List[SearchResult]] =
-        {
+    {
         val http1 : HttpRequest = Http(s"${URL}/SearchName/$KEY/$actor")
         movieRequestParser.parseSearchNamesResult(http1)
     }
@@ -32,7 +32,7 @@ class IMDBConnector(movieRequestParser : MovieRequestParser)
         movieRequestParser.searchCast(http1)
     }
     
-    def getMovieInfo(movieID : String)
+    def getMovieInfo(movieID : String) : Option[TitleData] =
     {
         val http1 : HttpRequest = Http(s"${URL}/Title/$KEY/$movieID")
         movieRequestParser.getMovieInfo(http1)
