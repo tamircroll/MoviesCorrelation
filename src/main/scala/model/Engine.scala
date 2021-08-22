@@ -10,7 +10,6 @@ class Engine(imdbConnector : IMDBConnector)
 {
     implicit val executionContext : ExecutionContext = ExecutionContext.global
     
-    
     def searchTitle(title : String) =
     {
         imdbConnector.searchTitle(title)
@@ -41,11 +40,8 @@ class Engine(imdbConnector : IMDBConnector)
         val actorListFuture1 = Future(searchActor(actorID1))
         val actorListFuture2 = Future(searchActor(actorID2))
         
-        val actor1 : Option[NameData] = Await.result(actorListFuture1.map(_.headOption), 10000 milli)
-        val actor2 : Option[NameData] = Await.result(actorListFuture2.map(_.headOption), 100000 milli)
-        
-        val moviesListOption1 = actor1.flatMap(_.getCastActors)
-        val moviesListOption2 = actor2.flatMap(_.getCastActors)
+        val moviesListOption1 : Option[List[CastMovie]] = Await.result(actorListFuture1.map(_.flatMap(_.getCastActors)), 10000 milli)
+        val moviesListOption2 : Option[List[CastMovie]] = Await.result(actorListFuture2.map(_.flatMap(_.getCastActors)), 100000 milli)
         
         val res = (moviesListOption1, moviesListOption2) match
         {
@@ -67,7 +63,8 @@ class Engine(imdbConnector : IMDBConnector)
         val actorList = (actorListOption1, actorListOption2) match
         {
             case (Some(actorList1), Some(actorList2)) => actorList1.filter(movie => actorList2.exists(_.id == movie.id))
-            case _ => {
+            case _ =>
+            {
                 println(s"TAMIR: ERROR: Failed to find actor List. t.findSameActors(Engine.scala:71)")
                 List()
             }
