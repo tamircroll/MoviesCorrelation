@@ -1,11 +1,14 @@
 package controller
 
+import java.awt.image.BufferedImage
+import java.net.URL
+import javax.imageio.ImageIO
 import model.{ActorShort, MovieRequestParser, NameData, SearchResult, TitleData}
 import scalaj.http.{Http, HttpRequest}
 
 class IMDBConnector(movieRequestParser : MovieRequestParser)
 {
-    val URL = "https://imdb-api.com/en/API/"
+    val IMDB_URL = "https://imdb-api.com/en/API/"
     val KEY = "k_skqcpywr"
     
     def searchTitle(movie : String) : Option[List[SearchResult]] =
@@ -38,6 +41,12 @@ class IMDBConnector(movieRequestParser : MovieRequestParser)
     {
         val http1 : HttpRequest = Http(createURL("Title", movieID))
         movieRequestParser.getMovieInfo(http1)
+    }
+    
+    def getImage(imageUrl : String) : BufferedImage =
+    {
+        val http1 : HttpRequest = Http(imageUrl)
+        movieRequestParser.getImage(imageUrl)
     }
     
     private def createURL(requestData : String, requestType : String) : String =

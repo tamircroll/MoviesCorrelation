@@ -1,8 +1,11 @@
 package model
 
 
+import java.awt.image.BufferedImage
+import java.net.URL
 import io.circe.generic.auto._
 import io.circe.parser._
+import javax.imageio.ImageIO
 import scalaj.http.HttpRequest
 
 class MovieRequestParser
@@ -80,5 +83,11 @@ class MovieRequestParser
         }
         println(s"TAMIR: HERE: movieInfo:${movieInfo.toString}. t.getMovies(MovieRequestParser.scala:35)")
         movieInfo
+    }
+    
+    def getImage(imageUrl : String) : BufferedImage =
+    {
+        val image = ImageIO.read(new URL(imageUrl))
+        image
     }
 }

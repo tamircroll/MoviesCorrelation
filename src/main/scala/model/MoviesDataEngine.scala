@@ -1,12 +1,13 @@
 package model
 
+import java.awt.image.BufferedImage
 import controller.IMDBConnector
 import scala.collection.immutable
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.language.postfixOps
 
-class Engine(imdbConnector : IMDBConnector)
+class MoviesDataEngine(imdbConnector : IMDBConnector)
 {
     implicit val executionContext : ExecutionContext = ExecutionContext.global
     
@@ -72,5 +73,10 @@ class Engine(imdbConnector : IMDBConnector)
         
         println(s"TAMIR: HERE: Actors:$actorList\n$actorListOption1\n$actorListOption2. t.findSameActors(Engine.scala:72)")
         actorList
+    }
+    
+    def getImage(imageUrl : String) : BufferedImage =
+    {
+        imdbConnector.getImage(imageUrl)
     }
 }

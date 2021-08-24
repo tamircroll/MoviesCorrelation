@@ -1,18 +1,20 @@
+import View.MainView
 import controller.IMDBConnector
-import model.{Engine, MovieRequestParser}
+import model.{MoviesDataEngine, MovieRequestParser}
 
-object Main
+object main
 {
     def main(args : Array[String]) : Unit =
     {
         println("MoviesCorrelation is on")
         val connector = new IMDBConnector(new MovieRequestParser())
-        val imdbEngine = new Engine(connector)
-        connector.searchTitle("The Matrix")
+        val imdbEngine = new MoviesDataEngine(connector)
+//        imdbEngine.searchTitle("The Matrix")
 //        imdbEngine.searchNames("angelina")
 //        imdbEngine.searchCast("tt1375666")
-//        imdbEngine.getMovieInfo("tt1375666")
-//        imdbEngine.findSameMovies("nm0001401", "nm0000093")
+//        imdbEngine.getMovieInfo("tt0133093")
+//        imdbEngine.findSameMovies("nm0000206", "nm0005251")
 //        imdbEngine.findSameActors("tt1375666", "tt0110413")
+        new MainView(imdbEngine)
     }
 }
